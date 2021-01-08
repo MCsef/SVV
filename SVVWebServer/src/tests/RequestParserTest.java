@@ -4,11 +4,12 @@ import parsers.RequestParser;
 import exception.InvalidResourceException;
 import exception.InvalidHostException;
 import exception.InvalidHttpException;
+import exception.InvalidParserRequestException;
 
 public class RequestParserTest {
 
 	@Test
-	public void testValidResource() 
+	public void testValidResource() throws InvalidParserRequestException 
 	{
 		String request = "GET / HTTP/1.1 Host: localhost:8080\n" +
                 "User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:74.0) Gecko/20100101 Firefox/74.0\n" +
@@ -21,7 +22,7 @@ public class RequestParserTest {
 	}
 	
 	@Test(expected = InvalidResourceException.class)
-	public void testInvalidResource1() 
+	public void testInvalidResource1() throws InvalidParserRequestException 
 	{
 		String request = "GET x HTTP/1.1 Host: localhost:8080\n" +
                 "User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:74.0) Gecko/20100101 Firefox/74.0\n" +
@@ -34,7 +35,7 @@ public class RequestParserTest {
 	}
 	
 	@Test(expected = InvalidResourceException.class)
-	public void testInvalidResource2() 
+	public void testInvalidResource2() throws InvalidParserRequestException 
 	{
 		String request = "GET http:\\| Host: localhost:8080\n" +
                 "User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:74.0) Gecko/20100101 Firefox/74.0\n" +
@@ -47,7 +48,7 @@ public class RequestParserTest {
 	}
 	
 	@Test(expected = InvalidResourceException.class)
-	public void testNoResource() 
+	public void testNoResource() throws InvalidParserRequestException 
 	{
 		RequestParser parser = new RequestParser(null);
 		parser.getResource();
@@ -72,14 +73,14 @@ public class RequestParserTest {
 	}
 	
 	@Test
-	public void testValidHost() 
+	public void testValidHost() throws InvalidParserRequestException 
 	{
 		RequestParser parser = new RequestParser("host");
 		parser.getHost();
 	}
 	
 	@Test(expected = InvalidHostException.class)
-	public void testInvalidHost() 
+	public void testInvalidHost() throws InvalidParserRequestException 
 	{
 		RequestParser parser = new RequestParser(null);
 		parser.getHost();

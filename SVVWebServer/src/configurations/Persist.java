@@ -1,4 +1,5 @@
 package configurations;
+
 import exception.InvalidPortException;
 import exception.InvalidMaintenanceDirectoryException;
 import exception.InvalidRootDirectoryException;
@@ -8,6 +9,10 @@ public class Persist {
 	private String rootDirectory = "C:\\www_root";
 	private String maintenanceDirectory = "C:\\www_root\\maintn";
 	private int portNumber = 8080;
+	
+	public Persist() {	
+		
+	}
 	
 	public int getPort() {
 		return portNumber;

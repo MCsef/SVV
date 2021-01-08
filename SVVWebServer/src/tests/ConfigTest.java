@@ -1,5 +1,8 @@
 package tests;
 import static org.junit.Assert.*;
+
+import java.io.IOException;
+
 import org.junit.Test;
 import configurations.Configuration;
 import exception.FailedLoadingConfigurationException;
@@ -10,7 +13,7 @@ public class ConfigTest {
 	Configuration config;
 	
 	@Test
-	public void testSetSetting() 
+	public void testSetSetting() throws FailedLoadingConfigurationException, IOException
 	{
 		config = new Configuration("valid");	
 		assertEquals("true", config.setSetting("Port number", "8080"));
@@ -19,7 +22,7 @@ public class ConfigTest {
 	}
 	
 	@Test(expected = FailedSavingConfigurationException.class)
-	public void testInvalidSavingConfiguration() throws FailedSavingConfigurationException
+	public void testInvalidSavingConfiguration() throws FailedSavingConfigurationException, FailedLoadingConfigurationException, IOException
 	{
 		config = new Configuration("valid");
 		config.saveConfiguration();
