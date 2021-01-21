@@ -1,46 +1,60 @@
 package configurations;
 
 import exception.InvalidPortException;
+
+import java.io.IOException;
+
+import exception.FailedGetSettingException;
+import exception.FailedLoadingConfigurationException;
+import exception.FailedSavingConfigurationException;
+import exception.FailedSetSettingException;
 import exception.InvalidMaintenanceDirectoryException;
 import exception.InvalidRootDirectoryException;
 import validators.*;
 
 public class Persist {
-	private String rootDirectory = "C:\\www_root";
-	private String maintenanceDirectory = "C:\\www_root\\maintn";
-	private int portNumber = 8080;
 	
-	public Persist() {	
-		
+	private Configuration configuration;
+	
+	public Persist(Configuration configuration) throws FailedLoadingConfigurationException, IOException {	
+		this.configuration = configuration;
+		configuration.loadConfiguration();
 	}
 	
-	public int getPort() {
-		return portNumber;
+	public int getPort() throws NumberFormatException, FailedGetSettingException {
+		return Integer.parseInt(configuration.getSetting("portNumber"));
 	}
 	
-	public String getRootDirectory() {
-		return rootDirectory;
+	public String getRootDirectory() throws FailedGetSettingException {
+		return configuration.getSetting("rootDirectory");
 	}
 	
-	public String getMaintenanceDirectory() {
-		return maintenanceDirectory;
+	public String getMaintenanceDirectory() throws FailedGetSettingException {
+		return configuration.getSetting("maintenanceDirectory");
 	}
 	
-	public void setPort(int portNumber) throws InvalidPortException {
-		if(!PortNumberValidator.validate(portNumber))
+	public void setPort(int portNumber) throws InvalidPortException, FailedSetSettingException, FailedSavingConfigurationException, IOException {
+		if (!PortNumberValidator.validate(portNumber)) {
 			throw new InvalidPortException();
-		this.portNumber = portNumber;
+		}
+		configuration.setSetting("portNumber",String.valueOf(portNumber));
+		configuration.saveConfiguration();
 	}
 	
-	public void setRootDirectory(String rootDirectory) throws InvalidRootDirectoryException {
-		if(!RootDirectoryValidator.validate(rootDirectory))
+	public void setRootDirectory(String rootDirectory) throws InvalidRootDirectoryException, FailedSetSettingException, FailedSavingConfigurationException, IOException {
+		if(!RootDirectoryValidator.validate(rootDirectory))	
+		{
 			throw new InvalidRootDirectoryException();
-		this.rootDirectory = rootDirectory;
+		}
+		configuration.setSetting("rootDirectory",rootDirectory);
+		configuration.saveConfiguration();
 	}
 	
-	public void setMaintenanceDirectory(String maintenanceDirectory) throws InvalidMaintenanceDirectoryException {
-		if(!MaintenanceDirectoryValidator.validate(maintenanceDirectory))
+	public void setMaintenanceDirectory(String maintenanceDirectory) throws InvalidMaintenanceDirectoryException, FailedSetSettingException, FailedSavingConfigurationException, IOException {
+		if(!MaintenanceDirectoryValidator.validate(maintenanceDirectory)) {
 			throw new InvalidMaintenanceDirectoryException();
-		this.maintenanceDirectory = maintenanceDirectory;
+		}
+		configuration.setSetting("maintenanceDirectory",maintenanceDirectory);
+		configuration.saveConfiguration();
 	}
 }
