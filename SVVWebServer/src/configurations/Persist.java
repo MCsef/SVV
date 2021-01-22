@@ -12,36 +12,44 @@ import exception.InvalidMaintenanceDirectoryException;
 import exception.InvalidRootDirectoryException;
 import validators.*;
 
-public class Persist {
+public class Persist 
+{
 	
 	private Configuration configuration;
 	
-	public Persist(Configuration configuration) throws FailedLoadingConfigurationException, IOException {	
+	public Persist(Configuration configuration) throws FailedLoadingConfigurationException, IOException 
+	{	
 		this.configuration = configuration;
 		configuration.loadConfiguration();
 	}
 	
-	public int getPort() throws NumberFormatException, FailedGetSettingException {
+	public int getPort() throws NumberFormatException, FailedGetSettingException 
+	{
 		return Integer.parseInt(configuration.getSetting("portNumber"));
 	}
 	
-	public String getRootDirectory() throws FailedGetSettingException {
+	public String getRootDirectory() throws FailedGetSettingException 
+	{
 		return configuration.getSetting("rootDirectory");
 	}
 	
-	public String getMaintenanceDirectory() throws FailedGetSettingException {
+	public String getMaintenanceDirectory() throws FailedGetSettingException 
+	{
 		return configuration.getSetting("maintenanceDirectory");
 	}
 	
-	public void setPort(int portNumber) throws InvalidPortException, FailedSetSettingException, FailedSavingConfigurationException, IOException {
-		if (!PortNumberValidator.validate(portNumber)) {
+	public void setPort(int portNumber) throws InvalidPortException, FailedSetSettingException, FailedSavingConfigurationException, IOException 
+	{
+		if (!PortNumberValidator.validate(portNumber))
+		{
 			throw new InvalidPortException();
 		}
 		configuration.setSetting("portNumber",String.valueOf(portNumber));
 		configuration.saveConfiguration();
 	}
 	
-	public void setRootDirectory(String rootDirectory) throws InvalidRootDirectoryException, FailedSetSettingException, FailedSavingConfigurationException, IOException {
+	public void setRootDirectory(String rootDirectory) throws InvalidRootDirectoryException, FailedSetSettingException, FailedSavingConfigurationException, IOException 
+	{
 		if(!RootDirectoryValidator.validate(rootDirectory))	
 		{
 			throw new InvalidRootDirectoryException();
@@ -50,8 +58,10 @@ public class Persist {
 		configuration.saveConfiguration();
 	}
 	
-	public void setMaintenanceDirectory(String maintenanceDirectory) throws InvalidMaintenanceDirectoryException, FailedSetSettingException, FailedSavingConfigurationException, IOException {
-		if(!MaintenanceDirectoryValidator.validate(maintenanceDirectory)) {
+	public void setMaintenanceDirectory(String maintenanceDirectory) throws InvalidMaintenanceDirectoryException, FailedSetSettingException, FailedSavingConfigurationException, IOException 
+	{
+		if(!MaintenanceDirectoryValidator.validate(maintenanceDirectory)) 
+		{
 			throw new InvalidMaintenanceDirectoryException();
 		}
 		configuration.setSetting("maintenanceDirectory",maintenanceDirectory);

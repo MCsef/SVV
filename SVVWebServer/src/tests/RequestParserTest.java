@@ -5,11 +5,15 @@ import exception.InvalidResourceException;
 import exception.InvalidHostException;
 import exception.InvalidHttpException;
 import exception.InvalidParserRequestException;
+import exception.InvalidRequestException;
+import exception.InvalidRequestHTTPVersionException;
+import exception.InvalidRequestHostException;
+import exception.InvalidRequestResourceException;
 
 public class RequestParserTest {
 
 	@Test
-	public void testValidResource() throws InvalidParserRequestException 
+	public void testValidResource() throws InvalidParserRequestException, InvalidRequestException, InvalidRequestResourceException 
 	{
 		String request = "GET / HTTP/1.1 Host: localhost:8080\n" +
                 "User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:74.0) Gecko/20100101 Firefox/74.0\n" +
@@ -22,7 +26,7 @@ public class RequestParserTest {
 	}
 	
 	@Test(expected = InvalidResourceException.class)
-	public void testInvalidResource1() throws InvalidParserRequestException 
+	public void testInvalidResource1() throws InvalidParserRequestException, InvalidRequestException, InvalidRequestResourceException 
 	{
 		String request = "GET x HTTP/1.1 Host: localhost:8080\n" +
                 "User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:74.0) Gecko/20100101 Firefox/74.0\n" +
@@ -35,7 +39,7 @@ public class RequestParserTest {
 	}
 	
 	@Test(expected = InvalidResourceException.class)
-	public void testInvalidResource2() throws InvalidParserRequestException 
+	public void testInvalidResource2() throws InvalidParserRequestException, InvalidRequestException, InvalidRequestResourceException 
 	{
 		String request = "GET http:\\| Host: localhost:8080\n" +
                 "User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:74.0) Gecko/20100101 Firefox/74.0\n" +
@@ -48,39 +52,39 @@ public class RequestParserTest {
 	}
 	
 	@Test(expected = InvalidResourceException.class)
-	public void testNoResource() throws InvalidParserRequestException 
+	public void testNoResource() throws InvalidParserRequestException, InvalidRequestException, InvalidRequestResourceException 
 	{
 		RequestParser parser = new RequestParser(null);
 		parser.getResource();
 	}
 	
 	@Test
-	public void testValidHttp() 
+	public void testValidHttp() throws InvalidRequestException, InvalidRequestHTTPVersionException 
 	{
 		String request = "GET page.txt HTTP/2.0";
 		
 		RequestParser parser = new RequestParser(request);
-		parser.getHTTP();
+		parser.getHTTPVersion();
 	}
 	
 	@Test(expected = InvalidHttpException.class)
-	public void testInvalidHTTP() 
+	public void testInvalidHTTP() throws InvalidRequestException, InvalidRequestHTTPVersionException 
 	{
 		String request = "GET |PAGE.TXT HTTP/3.3";
 		
 		RequestParser parser = new RequestParser(request);
-		parser.getHTTP();
+		parser.getHTTPVersion();
 	}
 	
 	@Test
-	public void testValidHost() throws InvalidParserRequestException 
+	public void testValidHost() throws InvalidParserRequestException, InvalidRequestException, InvalidRequestHostException 
 	{
 		RequestParser parser = new RequestParser("host");
 		parser.getHost();
 	}
 	
 	@Test(expected = InvalidHostException.class)
-	public void testInvalidHost() throws InvalidParserRequestException 
+	public void testInvalidHost() throws InvalidParserRequestException, InvalidRequestException, InvalidRequestHostException 
 	{
 		RequestParser parser = new RequestParser(null);
 		parser.getHost();

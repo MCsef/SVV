@@ -16,12 +16,14 @@ public class Configuration
 	private FileReader reader;
 	private Properties prop;
 	
-	public Configuration(String configurationFileName) throws  IOException, FailedLoadingConfigurationException {
+	public Configuration(String configurationFileName) throws  IOException, FailedLoadingConfigurationException 
+	{
 		this.configurationFileName=configurationFileName;
 		loadConfiguration();
 	}
 	
-	public void loadConfiguration() throws FailedLoadingConfigurationException, IOException {	
+	public void loadConfiguration() throws FailedLoadingConfigurationException, IOException 
+	{	
 		prop = new Properties();
 		try 
 		{
@@ -41,7 +43,8 @@ public class Configuration
         }
 	}
 	
-	public void saveConfiguration() throws FailedSavingConfigurationException, IOException{	
+	public void saveConfiguration() throws FailedSavingConfigurationException, IOException
+	{	
 		try 
 		{
 			FileWriter output = new FileWriter(this.configurationFileName);
@@ -53,7 +56,8 @@ public class Configuration
         }
 	}
 	
-	public String getSetting(String key) throws FailedGetSettingException{
+	public String getSetting(String key) throws FailedGetSettingException
+	{
 		String value = prop.getProperty(key);
 		if(!ConfigurationFileValidator.validateGetSetting(value)) 
 		{
@@ -62,7 +66,8 @@ public class Configuration
 		return value;
 	}
 	
-	public void setSetting(String key, String value) throws FailedSetSettingException {
+	public void setSetting(String key, String value) throws FailedSetSettingException 
+	{
 		prop.setProperty(key, value);
 		if(!ConfigurationFileValidator.validateSetSetting(value,prop.getProperty(key)))
 		{
