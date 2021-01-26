@@ -8,6 +8,7 @@ import exception.FailedGetSettingException;
 import exception.FailedLoadingConfigurationException;
 import exception.FailedSavingConfigurationException;
 import exception.FailedSetSettingException;
+import exception.InvalidConfigurationException;
 import validators.ConfigurationFileValidator;
 
 public class Configuration 
@@ -15,6 +16,7 @@ public class Configuration
 	String configurationFileName;
 	private FileReader reader;
 	private Properties prop;
+	private static volatile Configuration singleton = null;
 	
 	public Configuration(String configurationFileName) throws  IOException, FailedLoadingConfigurationException 
 	{
@@ -74,4 +76,11 @@ public class Configuration
 			throw new FailedSetSettingException();
 		}
 	}
+	
+	public static Configuration getConfig(String configuration) throws InvalidConfigurationException, IOException, FailedLoadingConfigurationException 
+	{
+        if(singleton == null)
+            singleton = new Configuration(configuration);
+        return singleton;
+    }
 }

@@ -12,7 +12,7 @@ public class WebServer extends Thread{
 		start();
 	}
 	
-	public static void main(String[] args) throws IOException {
+	public static void runWebServer(int port){
 		ServerSocket serverSocket = null;
 		try 
 		{

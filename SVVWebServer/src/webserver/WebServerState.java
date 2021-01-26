@@ -12,8 +12,11 @@ public class WebServerState {
 
 	public WebServerState() {
 		this.state=stopped;
-		state=stopped;
 	}
+	
+	public static void init(){
+		state=stopped;
+    }
 
 	public static boolean isStopped() {
 		return (state==stopped)? true: false;	
@@ -47,5 +50,9 @@ public class WebServerState {
 		}
 		state=maintenance;
 	}
+	
+	public static int getWebServerState(){
+        return state;
+    }
 	
 }
